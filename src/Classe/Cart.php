@@ -14,7 +14,7 @@ Class Cart
     public function add($product)
     {
 
-        $cart = $this->requestStack->getSession()->get('cart');
+        $cart = $this->getCart();
 
 
         if (isset($cart[$product->getId()]))
@@ -34,6 +34,33 @@ Class Cart
         $this->requestStack->getSession()->set('cart', $cart);
     }
 
+    public function decrease($id){
+        $cart = $this->getCart();
+        if($cart[$id]['qty'] > 1 ){
+            $cart[$id]['qty'] = $cart[$id]['qty'] - 1;
+        }else{
+            unset($cart[$id]);
+        }
+
+        $this->requestStack->getSession()->set('cart', $cart);
+    }
+
+    public function fullQuantity(){
+
+        $cart = $this->getCart();
+        $quantity = 0;
+
+        if(!isset($cart)){
+            return $quantity;
+        }
+
+        foreach ($cart as $product){
+            $quantity = $quantity + $product['qty'];
+        }
+
+        return $quantity;
+    }
+
     public function remove(){
         return $this->requestStack->getSession()->remove('cart');
     }
@@ -41,5 +68,22 @@ Class Cart
     public function getCart()
     {
         return $this->requestStack->getSession()->get('cart');
+    }
+
+    public function getTotalWt(){
+
+        $cart = $this->getCart();
+        $price = 0;
+
+        if(!isset($cart)){
+            return $price;
+        }
+
+
+        foreach ($cart as $product){
+            $price = $price + ($product['object']->getPriceWt() * $product['qty']);
+        }
+
+        return $price;
     }
 }
