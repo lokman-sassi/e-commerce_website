@@ -20,6 +20,9 @@ class Order
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
+    #[ORM\Column]
+    private ?int $state = null;
+
     #[ORM\Column(length: 255)]
     private ?string $carrierName = null;
 
@@ -32,12 +35,39 @@ class Order
     /**
      * @var Collection<int, OrderDetail>
      */
-    #[ORM\OneToMany(targetEntity: OrderDetail::class, mappedBy: 'myOrder')]
+    #[ORM\OneToMany(targetEntity: OrderDetail::class, mappedBy: 'myOrder', cascade: ['persist'])]
     private Collection $orderDetails;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'orders')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
     public function __construct()
     {
         $this->orderDetails = new ArrayCollection();
+    }
+
+    public function getTotalTva()
+    {
+        $totalTva = 0;
+        $products = $this->getOrderDetails();
+        foreach ($products as $product) {
+            $coeff = $product->getProductTva() / 100;
+            $totalTva += $coeff * $product->getProductPrice();
+        }
+
+        return $totalTva;
+    }
+
+    public function getTotalWt()
+    {
+        $totalTTC = 0;
+        $products = $this->getOrderDetails();
+        foreach ($products as $product) {
+            $coeff = 1 + ($product->getProductTva() / 100);
+            $totalTTC += ($coeff * $product->getProductPrice()) * $product->getProductQuantity();
+        }
+        return $totalTTC + $this->getCarrierPrice();
     }
 
     public function getId(): ?int
@@ -54,6 +84,17 @@ class Order
     {
         $this->createdAt = $createdAt;
 
+        return $this;
+    }
+
+    public function getState(): ?int
+    {
+        return $this->state;
+    }
+
+    public function setState(int $state): static
+    {
+        $this->state = $state;
         return $this;
     }
 
@@ -119,6 +160,18 @@ class Order
                 $orderDetail->setMyOrder(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?user
+    {
+        return $this->user;
+    }
+
+    public function setUser(?user $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
