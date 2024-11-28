@@ -77,6 +77,12 @@ class OrderDetail
         return $this->productQuantity;
     }
 
+    public function getProductPriceWt()
+    {
+        $coeff = 1 + ($this->productTva/100);
+        return $coeff * $this->productPrice;
+    }
+
     public function setProductQuantity(int $productQuantity): static
     {
         $this->productQuantity = $productQuantity;
