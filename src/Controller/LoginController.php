@@ -27,6 +27,6 @@ class LoginController extends AbstractController
     #[Route('/deconnexion', name: 'app_logout', methods: ['GET'])]
     public function logout(): Response
     {
-        throw new \Exception('Don\'t forget to activae logout in security.yaml');
+        throw new \Exception('Don\'t forget to active logout in security.yaml');
     }
 }

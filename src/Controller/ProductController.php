@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ProductController extends AbstractController
 {
-    #[Route('/produit/{slug}}', name: 'app_product')]
+    #[Route('/produit/{slug}', name: 'app_product')]
     public function index($slug, ProductRepository $productRepository): Response
 
     // Another method of symfony that do automapping to the entity Product without using ProductRepository
