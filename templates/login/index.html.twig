@@ -10,19 +10,20 @@
       {% endif %}
 
       <form action="{{ path('app_login') }}" method="post">
-         <label for="username">Votre email:</label>
+         <label for="username">Votre email :</label>
          <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" required>
 
-         <label for="password">Votre mot de passe:</label>
+         <label for="password">Votre mot de passe :</label>
          <input class="form-control" type="password" id="password" name="_password" required>
 
          
          <input type="hidden" name="_target_path" value="{{path('app_account')}}">
 
-         <button class="btn btn-success mt-3" type="submit">Me connecter</button>
+         <button type="submit" class="btn btn-success mt-3">Me connecter</button>
       </form>
 
       <br/>
-      Vous n'avez pas de compte? <a href="{{path('app_register')}}">Inscrivez-vous</a>
+      Vous n'avez pas de compte? <a href="{{path('app_register')}}">Inscrivez-vous</a> <br>
+       <a href="{{path('app_password')}}">Mot de pass oublié ?</a>
    </div>
 {% endblock %}

@@ -7,7 +7,7 @@ use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 class CartController extends AbstractController
 {
@@ -15,7 +15,7 @@ class CartController extends AbstractController
     public function index(Cart $cart, $motif): Response
     {
 
-        if($motif == 'annulation'){
+        if($motif == "annulation"){
             $this->addFlash(
                 'info',
                 'Paiment annulée : Vous pouvez mettre à jour votre panier et votre commande'
@@ -39,7 +39,6 @@ class CartController extends AbstractController
             'Produit ajouté à votre panier !'
         );
         return $this->redirect($request->headers->get('referer'));
-
     }
 
     #[Route('/cart/decrease/{id}', name: 'app_cart_decrease')]
@@ -53,7 +52,6 @@ class CartController extends AbstractController
             'Produit suprrimée de votre panier !'
         );
         return $this->redirectToRoute('app_cart');
-
     }
 
     #[Route('/cart/remove', name: 'app_cart_remove')]

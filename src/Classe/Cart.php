@@ -30,7 +30,6 @@ Class Cart
             ];
         }
 
-
         $this->requestStack->getSession()->set('cart', $cart);
     }
 
@@ -61,15 +60,6 @@ Class Cart
         return $quantity;
     }
 
-    public function remove(){
-        return $this->requestStack->getSession()->remove('cart');
-    }
-
-    public function getCart()
-    {
-        return $this->requestStack->getSession()->get('cart');
-    }
-
     public function getTotalWt(){
 
         $cart = $this->getCart();
@@ -79,11 +69,21 @@ Class Cart
             return $price;
         }
 
-
         foreach ($cart as $product){
             $price = $price + ($product['object']->getPriceWt() * $product['qty']);
         }
 
         return $price;
     }
+
+    public function remove(){
+        return $this->requestStack->getSession()->remove('cart');
+    }
+
+    public function getCart()
+    {
+        return $this->requestStack->getSession()->get('cart');
+    }
+
+
 }

@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class LoginController extends AbstractController
@@ -25,7 +25,7 @@ class LoginController extends AbstractController
     }
 
     #[Route('/deconnexion', name: 'app_logout', methods: ['GET'])]
-    public function logout(): Response
+    public function logout(): never
     {
         throw new \Exception('Don\'t forget to active logout in security.yaml');
     }
